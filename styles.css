@@ -1,142 +1,211 @@
-
-/* ByteBazaar: Futuristic Y2K Aesthetic */
 :root {
-    --color-bg: #ffffff;
-    --color-surface: #fdf2f7; /* Very light pink */
-    --color-primary: #ff8ab4; /* Soft signature pink */
-    --color-primary-dark: #e06a96;
-    --color-accent: #c0c0c0; /* Chrome/Metallic */
-    --color-text: #1a1a1a;
-    --color-text-muted: #666666;
-    --shadow-glass: 0 20px 50px rgba(255, 138, 180, 0.15);
-    --font-heading: 'Syncopate', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --pink: #ffb7c5;
+    --pink-soft: #fdf2f7;
+    --glass: rgba(255, 255, 255, 0.75);
 }
 
-* { box-sizing: border-box; }
-
 body {
-    margin: 0;
-    font-family: var(--font-body);
-    background-color: var(--color-bg);
-    color: var(--color-text);
+    margin: 0; font-family: 'Inter', sans-serif;
+    background: #fff; cursor: none;
     overflow-x: hidden;
 }
 
-/* Header - Sleek & Transparent */
+/* Glowing Cursor */
+#cursor-glow {
+    position: fixed; width: 35px; height: 35px; background: var(--pink);
+    border-radius: 50%; pointer-events: none; z-index: 9999;
+    filter: blur(12px); opacity: 0.6; transition: transform 0.1s ease-out;
+}
+
+/* Header & Nav Fix */
 .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 5vw;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 5vw; position: sticky; top: 0; z-index: 100;
+    background: var(--glass); backdrop-filter: blur(15px); border-bottom: 1px solid var(--pink-soft);
 }
 
-.logo {
-    font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: 1.2rem;
-    text-decoration: none;
-    color: var(--color-text);
-    letter-spacing: -1px;
+.nav__links { display: flex; align-items: center; gap: 2rem; }
+.nav-item { 
+    text-decoration: none; color: #444; font-size: 0.8rem; 
+    font-weight: 600; text-transform: uppercase; border: none; 
+    background: none; cursor: pointer; padding: 0; font-family: 'Inter';
 }
 
-.logo span { color: var(--color-primary); }
+.logo { font-family: 'Syncopate'; text-decoration: none; color: #000; letter-spacing: -1px; }
+.logo span { color: var(--pink); }
 
-.nav__list {
-    display: flex;
-    gap: 40px;
-    list-style: none;
-    margin: 0;
+.eid-banner {
+    background: #000; color: #fff; text-align: center;
+    padding: 8px; font-size: 0.7rem; font-weight: bold; letter-spacing: 1.5px;
 }
 
-.nav__list a {
-    text-decoration: none;
-    color: var(--color-text);
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    font-weight: 500;
-}
-
-/* Hero Section - The "Your Choice" Look */
+/* Hero Section */
 .hero {
-    position: relative;
-    height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 5vw;
+    height: 75vh; display: flex; align-items: center; justify-content: center; position: relative;
 }
-
 .hero__bg-text {
-    position: absolute;
-    font-family: var(--font-heading);
-    font-size: 15vw;
+    position: absolute; font-family: 'Syncopate'; font-size: 15vw; color: var(--pink-soft); z-index: -1;
+}
+.hero h1 { font-family: 'Syncopate'; font-size: 4.5rem; margin: 0; }
+
+/* Product Grid */
+.catalog { padding: 60px 5vw; background: var(--pink-soft); border-radius: 50px 50px 0 0; }
+.catalog__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+
+.product {
+    background: #fff; padding: 20px; border-radius: 30px; position: relative;
+    transition: 0.4s; overflow: hidden;
+}
+.product:hover { transform: translateY(-12px); box-shadow: 0 15px 40px rgba(255,183,197,0.3); }
+
+.product__hologram {
+    position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+    transition: 0.6s; pointer-events: none;
+}
+.product:hover .product__hologram { left: 100%; }
+.product__image { width: 100%; height: 280px; object-fit: cover; border-radius: 20px; }
+
+/* Discount Pricing */
+.price--discount { color: #ff4d6d; font-weight: bold; font-size: 1.1rem; }
+.price--original { text-decoration: line-through; color: #aaa; margin-left: 8px; font-size: 0.85rem; }
+
+/* Buttons */
+.btn { border: none; border-radius: 50px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+.btn--primary { background: #000; color: #fff; padding: 15px 35px; }
+.btn--secondary { background: var(--pink-soft); color: var(--pink); padding: 10px 20px; font-size: 0.75rem; }
+
+/* Chatbot UI */
+.chat-window {
+    position: fixed; bottom: 25px; right: 25px; width: 320px; height: 450px;
+    background: #fff; border-radius: 25px; box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+    z-index: 2000; display: flex; flex-direction: column; overflow: hidden;
+    transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1); border: 1px solid var(--pink-soft);
+}
+.chat--hidden { transform: translateY(120%); opacity: 0; }
+
+.chat-header {
+    background: #000; color: #fff; padding: 18px; display: flex; 
+    align-items: center; gap: 10px; font-family: 'Syncopate'; font-size: 0.6rem;
+}
+.status-dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 8px #00ff88; }
+#close-chat { margin-left: auto; background: none; border: none; color: #fff; cursor: pointer; font-size: 1.2rem; }
+
+.chat-messages { flex: 1; padding: 20px; overflow-y: auto; background: var(--pink-soft); display: flex; flex-direction: column; gap: 10px; }
+.bot-msg { background: #fff; padding: 10px 15px; border-radius: 15px 15px 15px 0; align-self: flex-start; font-size: 0.8rem; line-height: 1.4; }
+.user-msg { background: #000; color: #fff; padding: 10px 15px; border-radius: 15px 15px 0 15px; align-self: flex-end; font-size: 0.8rem; }
+
+.chat-input-area { padding: 15px; background: #fff; display: flex; gap: 10px; border-top: 1px solid #eee; }
+.chat-input-area input { flex: 1; border: none; outline: none; font-size: 0.85rem; }
+#chat-send { background: #000; color: #fff; border: none; padding: 8px 15px; border-radius: 10px; font-size: 0.6rem; font-family: 'Syncopate'; cursor: pointer; }
+
+/* Cart Drawer */
+.cart {
+    position: fixed; right: 0; top: 0; width: 350px; height: 100%;
+    background: var(--glass); backdrop-filter: blur(20px); z-index: 1000;
+    padding: 40px; transition: 0.4s;
+}
+.cart--hidden { transform: translateX(100%); }
+.site-footer { padding: 40px; text-align: center; color: #999; font-size: 0.8rem; }
+/* Modern Pill-Style Bag Button */
+.header-cart {
+    background: #000; /* Solid black for contrast */
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 50px; /* Perfect pill shape */
+    font-family: 'Syncopate', sans-serif; /* Matching your logo font */
+    font-size: 0.7rem;
     font-weight: 700;
-    color: #f0f0f0;
-    z-index: -1;
-    white-space: nowrap;
-    letter-spacing: -5px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.hero__image {
-    max-height: 50vh;
-    filter: drop-shadow(0 30px 50px rgba(0,0,0,0.1));
-    transition: transform 0.5s ease;
+.header-cart:hover {
+    background: var(--pink); /* Swaps to brand pink on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 183, 197, 0.4);
 }
 
-.hero__image:hover {
-    transform: scale(1.05) rotate(-2deg);
-}
-
-.hero__cta-box {
-    position: absolute;
-    bottom: 10%;
-    right: 10%;
-    max-width: 300px;
-    text-align: right;
-}
-
-/* Catalog - Pink Grid */
-.catalog {
-    background-color: var(--color-surface); /* Pinkish background from image */
-    padding: 80px 5vw;
-    border-radius: 50px 50px 0 0;
-}
-
-.catalog__tabs {
+/* The Number Bubble inside the Bag */
+.header-cart__count {
+    background: #fff;
+    color: #000;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 30px;
-    margin-bottom: 50px;
+    font-size: 0.6rem;
+    padding: 2px;
+}
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: var(--pink);
+    top: -10px;
+    z-index: 9999;
+    border-radius: 2px;
+    animation: fall linear forwards;
 }
 
-.section-title {
-    font-family: var(--font-heading);
-    font-size: 2rem;
-    color: #fff;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+    }
+}
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px); /* Stand-out glass effect */
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
 }
 
-.tab-btn {
-    background: none;
-    border: none;
-    color: rgba(255,255,255,0.7);
-    font-weight: bold;
-    cursor: pointer;
-    text-transform: uppercase;
+.modal-content {
+    background: white;
+    padding: 50px;
+    border-radius: 40px;
+    text-align: center;
+    border: 1px solid var(--pink);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    max-width: 400px;
 }
 
-.tab-btn.active { color: #fff; border-bottom: 2px solid #fff; }
+.modal-stars { font-size: 2rem; margin-bottom: 10px; }
 
-/* Product Cards */
-.catalog__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+.modal-content h2 {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    .modal-overlay {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+/* Initial state: Hidden and slightly lower */
+.product {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+/* State when visible */
+.product.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 }
