@@ -42,16 +42,16 @@ Immersive Micro-interactions:
 *Unique ID Conflict:* Replaced standard array indexing with a Date.now() + Math.random() generator for cart items to prevent multiple items from being deleted simultaneously when clicked.
 
 # 🚀 Setup & Installation
-1. Fork & Clone
+1. Fork & Clone:
 The project began by forking the original repository to establish a clear, independent commit history for the hackathon.
 
-# Clone your forked repository
+Clone your forked repository
 git clone https://github.com/[JoannaAldrin]/byte-bazaar.git
 
-# Enter the directory
+Enter the directory
 cd byte-bazaar
 
-2. Environment Cleaning
+2. Environment Cleaning:
 To ensure a "Clean-working code" environment:
 
 *Removed legacy CSS:* Stripped out redundant styles to reduce the CSS footprint.
@@ -60,18 +60,19 @@ To ensure a "Clean-working code" environment:
 
 *Asset Optimization:* Verified all image paths and video embeds were using secure HTTPS protocols for deployment readiness.
 
-3. Local Development Fixes
+3. Local Development Fixes:
+
 To run the environment exactly as it was developed:
 
-Open the folder in VS Code.
+-Open the folder in VS Code.
 
-Launch via Live Server to test the IntersectionObserver animations and the responsive Cart Drawer.
+-Launch via Live Server to test the IntersectionObserver animations and the responsive Cart Drawer.
 
-No external libraries or npm packages are required—the project runs on a zero-dependency Vanilla JS stack for maximum speed.
+-No external libraries or npm packages are required—the project runs on a zero-dependency Vanilla JS stack for maximum speed.
 
-4. Vercel Production Deployment
+4. Vercel Production Deployment:
+
 The final stage of the setup was the production build:
-
 *Configuration:* The project was linked to Vercel via GitHub for Continuous Integration (CI).
 
 *Fix verification:* The "Checkout Button Overflow" fix was tested specifically on the live Vercel build to ensure mobile responsiveness across all devices.
