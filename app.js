@@ -16,32 +16,61 @@ const products = [
 let cart = [];
 
 document.addEventListener('DOMContentLoaded', () => {
-    renderProducts();
+    renderProducts(products); // Pass initial products
     setupCoreListeners();
     setupCursor();
     setupChatBot();
 });
 
-function renderProducts() {
+// MODIFIED: Accepts a product list to handle sorting
+function renderProducts(productList) {
     const grid = document.getElementById('product-grid');
     const template = document.getElementById('product-card-template');
+    
+    grid.innerHTML = ''; // Clear grid before rendering
 
-    products.forEach(p => {
+    productList.forEach(p => {
         const clone = template.content.cloneNode(true);
-        const discountPrice = (p.price * 0.7).toFixed(2); // 30% Off logic
+        const discountPrice = (p.price * 0.7).toFixed(2); 
 
         clone.querySelector('.product__title').textContent = p.name;
         clone.querySelector('.price--discount').textContent = `$${discountPrice}`;
         clone.querySelector('.price--original').textContent = `$${p.price.toFixed(2)}`;
         clone.querySelector('.product__image').src = p.image;
         clone.querySelector('.product__add').onclick = () => addToCart(p, discountPrice);
+        
         grid.appendChild(clone);
     });
+
+    // Re-initialize scroll animations for new elements
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('is-visible');
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.product').forEach(p => observer.observe(p));
+}
+
+function sortProducts(criteria) {
+    let sortedList = [...products];
+
+    if (criteria === 'low') {
+        sortedList.sort((a, b) => a.price - b.price);
+    } else if (criteria === 'high') {
+        sortedList.sort((a, b) => b.price - a.price);
+    } else {
+        sortedList.sort((a, b) => a.id - b.id); // Recommended
+    }
+
+    renderProducts(sortedList);
 }
 
 function addToCart(product, discountedPrice) {
-
-    cart.push({ ...product, price: parseFloat(discountedPrice), cartId: Date.now() + Math.random() });
+    // Generate a truly unique ID for this specific cart entry
+    const cartId = Date.now() + Math.random();
+    cart.push({ ...product, price: parseFloat(discountedPrice), cartId: cartId });
+    
     updateCartUI();
     document.getElementById('cart-panel').classList.remove('cart--hidden');
     
@@ -70,12 +99,11 @@ function updateCartUI() {
         const li = document.createElement('li');
         li.style.cssText = "display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; font-size:0.9rem;";
         
-        
         li.innerHTML = `
             <span>${item.name}</span> 
             <div>
                 <b style="margin-right: 10px;">$${item.price.toFixed(2)}</b>
-                <button onclick="removeFromCart(${item.cartId})" style="background:none; border:none; color:#ff4d6d; cursor:pointer; font-weight:bold; padding:0 5px;">×</button>
+                <button onclick="removeFromCart(${item.cartId})" style="background:none; border:none; color:#ff4d6d; cursor:pointer; font-weight:bold; padding:0 5px; font-size:1.2rem;">×</button>
             </div>
         `;
         list.appendChild(li);
@@ -85,14 +113,6 @@ function updateCartUI() {
     countDisplay.textContent = cart.length;
     document.getElementById('checkout-btn').disabled = cart.length === 0;
     document.getElementById('cart-empty-msg').style.display = cart.length ? 'none' : 'block';
-    
-    document.getElementById('checkout-btn').onclick = () => {
-        alert("Eid Mubarak! Your order is placed. ✨");
-        throwConfetti();
-        cart = [];
-        updateCartUI();
-        document.getElementById('cart-panel').classList.add('cart--hidden');
-    };
 }
 
 function setupChatBot() {
@@ -114,7 +134,7 @@ function setupChatBot() {
 
         setTimeout(() => {
             let reply = "Our 30% off Eid sale is live! Use code **EID30**.";
-            if (val.includes("lip") || val.includes("gloss")) reply = "The Liquid Chrome Lip is our #1 Eid pick!";
+            if (val.includes("lip") || val.includes("gloss")) reply = "The Liquid Chrome Lip is our #1 pick!";
             if (val.includes("discount") || val.includes("sale")) reply = "Everything is 30% off automatically! ✨";
             
             msgBox.innerHTML += `<div class="bot-msg">${reply}</div>`;
@@ -131,45 +151,49 @@ function setupCursor() {
 }
 
 function setupCoreListeners() {
+    // Open/Close Cart
     document.querySelector('[data-open-cart]').onclick = () => document.getElementById('cart-panel').classList.remove('cart--hidden');
     document.querySelector('[data-close-cart]').onclick = () => document.getElementById('cart-panel').classList.add('cart--hidden');
+    
+    // Sort Dropdown
+    const sortSelect = document.getElementById('sort-select');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => sortProducts(e.target.value));
+    }
+
     document.getElementById('explore-btn').onclick = () => document.getElementById('catalog').scrollIntoView({behavior: 'smooth'});
     document.getElementById('footer-year').textContent = new Date().getFullYear();
    
+    // Welcome Modal
     const modal = document.getElementById('welcome-modal');
     const modalBtn = document.getElementById('close-modal-btn');
-
     if (modalBtn) {
         modalBtn.onclick = () => {
             modal.style.transition = "opacity 0.5s ease";
             modal.style.opacity = "0";
-            setTimeout(() => {
-                modal.style.display = "none";
-            }, 500);
+            setTimeout(() => modal.style.display = "none", 500);
         };
     }
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-            }
-        });
-    }, { threshold: 0.1 });
 
-    document.querySelectorAll('.product').forEach(p => observer.observe(p));
+    // Checkout Action
+    document.getElementById('checkout-btn').onclick = () => {
+        alert("Eid Mubarak! Your order is placed. ✨");
+        throwConfetti();
+        cart = [];
+        updateCartUI();
+        document.getElementById('cart-panel').classList.add('cart--hidden');
+    };
 
+    // Newsletter Logic
     const newsletterForm = document.getElementById('newsletter-form');
     if (newsletterForm) {
         newsletterForm.onsubmit = (e) => {
             e.preventDefault();
             const btn = newsletterForm.querySelector('button');
             const originalText = btn.textContent;
-            
             btn.textContent = "JOINED! ✨";
             btn.disabled = true;
-            newsletterForm.querySelector('input').value = ""; // Clear input
-
+            newsletterForm.querySelector('input').value = ""; 
             setTimeout(() => {
                 btn.textContent = originalText;
                 btn.disabled = false;

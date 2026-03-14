@@ -24,7 +24,7 @@
             <div class="nav__links">
                 <a href="#hero" class="nav-item">Home</a>
                 <a href="#catalog" class="nav-item">Shop</a>
-                <button id="help-trigger" class="nav-item btn-link">Help</button>
+                <button id="help-trigger" class="nav-item btn-link" style="background:none; border:none; cursor:pointer; font-family:'Inter'; font-weight:600; text-transform:uppercase; font-size:0.8rem;">Help</button>
             </div>
         </nav>
         <button class="header-cart" data-open-cart="true">
@@ -52,8 +52,17 @@
         </section>
 
         <section id="catalog" class="catalog" aria-label="Product list">
-            <header class="catalog__header">
-                <h2>NEW ARRIVALS</h2>
+            <header class="catalog__header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 30px; padding: 0 10px;">
+                <h2 style="font-family: 'Syncopate'; font-size: 1.2rem; margin: 0;">NEW ARRIVALS</h2>
+                
+                <div class="catalog__sort">
+                    <label for="sort-select" style="font-size: 0.7rem; font-weight: 600; text-transform: uppercase; margin-right: 10px; color: #888;">Sort by:</label>
+                    <select id="sort-select" style="background: white; border: 1px solid var(--pink); padding: 8px 15px; border-radius: 50px; font-family: 'Inter'; font-size: 0.8rem; cursor: pointer; outline: none;">
+                        <option value="recommended">Recommended</option>
+                        <option value="low">Price: Low to High</option>
+                        <option value="high">Price: High to Low</option>
+                    </select>
+                </div>
             </header>
             
             <div class="catalog__grid" id="product-grid"></div>
@@ -65,12 +74,12 @@
                         <img class="product__image" alt="" loading="lazy" />
                     </div>
                     <div class="product__body">
-                        <h3 class="product__title"></h3>
-                        <div class="product__pricing">
+                        <h3 class="product__title" style="font-size: 1rem; margin: 15px 0 5px 0;"></h3>
+                        <div class="product__pricing" style="margin-bottom: 15px;">
                             <span class="product__price price--discount"></span>
                             <span class="product__price price--original"></span>
                         </div>
-                        <button class="btn btn--secondary product__add">ADD TO BAG</button>
+                        <button class="btn btn--secondary product__add" style="width: 100%;">ADD TO BAG</button>
                     </div>
                 </article>
             </template>
@@ -92,37 +101,40 @@
         </div>
 
         <aside id="cart-panel" class="cart cart--hidden" aria-label="Shopping cart">
-            <header class="cart__header">
-                <h2>YOUR BAG</h2>
-                <button class="cart__close" data-close-cart="true">×</button>
+            <header class="cart__header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <h2 style="font-family: 'Syncopate'; font-size: 1rem; margin: 0;">YOUR BAG</h2>
+                <button class="cart__close" data-close-cart="true" style="background:none; border:none; font-size: 2rem; cursor:pointer;">×</button>
             </header>
-            <div class="cart__body">
-                <ul class="cart__items" id="cart-items"></ul>
+            <div class="cart__body" style="height: calc(100% - 200px); overflow-y: auto;">
+                <ul class="cart__items" id="cart-items" style="list-style: none; padding: 0;"></ul>
                 <p class="cart__empty" id="cart-empty-msg">Your bag is currently empty.</p>
             </div>
-            <footer class="cart__footer">
-                <div class="cart__summary">
-                    <div><span>Total</span> <span id="cart-total">$0.00</span></div>
+            <footer class="cart__footer" style="position: absolute; bottom: 40px; left: 40px; right: 40px;">
+                <div class="cart__summary" style="border-top: 1px solid #eee; padding-top: 20px; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; font-weight: bold;">
+                        <span>Total</span> 
+                        <span id="cart-total">$0.00</span>
+                    </div>
                 </div>
-                <button class="btn btn--primary btn--full" id="checkout-btn" disabled>CHECKOUT</button>
+                <button class="btn btn--primary" id="checkout-btn" style="width: 100%;" disabled>CHECKOUT</button>
             </footer>
         </aside>
     </main>
 
-    <footer id="footer" class="site-footer">
-        <p>© <span id="footer-year">2026</span> ByteBazaar. All rights reserved.</p>
-        <p>This is a demo store nothing you order will actually be shipped.</p>
-    </footer>
-
-    <section class="newsletter-section">
-        <div class="newsletter-container">
-            <p class="newsletter-text">Become a member today and get exclusive benefits!</p>
-            <div class="newsletter-box">
-                <input type="email" placeholder="Enter your email address" class="newsletter-input">
-                <button class="newsletter-button">SIGN UP</button>
-            </div>
+    <section class="newsletter-section" style="padding: 60px 5vw; background: #fff;">
+        <div class="newsletter-container" style="max-width: 600px; margin: 0 auto; text-align: center;">
+            <p class="newsletter-text" style="font-weight: 600; margin-bottom: 20px;">Become a member today and get exclusive benefits!</p>
+            <form id="newsletter-form" class="newsletter-box" style="display: flex; border: 1px solid #eee; border-radius: 50px; overflow: hidden;">
+                <input type="email" placeholder="Enter your email address" class="newsletter-input" required style="flex: 1; border: none; padding: 15px 25px; outline: none;">
+                <button type="submit" class="newsletter-button" style="background: #000; color: #fff; border: none; padding: 0 30px; font-family: 'Syncopate'; font-size: 0.7rem; cursor: pointer;">SIGN UP</button>
+            </form>
         </div>
     </section>
+
+    <footer id="footer" class="site-footer">
+        <p>© <span id="footer-year">2026</span> ByteBazaar. All rights reserved.</p>
+        <p style="font-size: 0.7rem; opacity: 0.6;">This is a demo store. Nothing you order will actually be shipped.</p>
+    </footer>
 
     <script src="app.js"></script>
 </body>
