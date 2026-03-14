@@ -52,3 +52,43 @@ function renderProducts(productsList) {
 }
 
 renderProducts(products);
+let cart = [];
+
+productGrid.addEventListener("click", (e) => {
+  if (e.target.classList.contains("product__add")) {
+    const article = e.target.closest(".product");
+    const productId = parseInt(article.dataset.productId);
+    const qty = parseInt(article.querySelector(".product__qty-input").value);
+
+    const product = products.find(p => p.id === productId);
+
+    const cartItem = cart.find(item => item.id === productId);
+    if(cartItem){
+      cartItem.qty += qty;
+    } else {
+      cart.push({...product, qty});
+    }
+    updateCartUI();
+  }
+});
+
+const cartItemsEl = document.getElementById("cart-items");
+const cartSubtotalEl = document.getElementById("cart-subtotal");
+const cartCountEl = document.querySelector(".header-cart__count");
+
+function updateCartUI(){
+  cartItemsEl.innerHTML = "";
+  let subtotal = 0;
+  cart.forEach(item => {
+    const li = document.createElement("li");
+    li.classList.add("cart__item");
+    li.innerHTML = `
+      <span class="cart__item-title">${item.title} x ${item.qty}</span>
+      <span class="cart__item-meta">$${(item.price*item.qty).toFixed(2)}</span>
+    `;
+    cartItemsEl.appendChild(li);
+    subtotal += item.price*item.qty;
+  });
+  cartSubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+  cartCountEl.textContent = cart.reduce((acc, i)=>acc+i.qty,0);
+}
