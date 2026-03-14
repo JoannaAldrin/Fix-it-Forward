@@ -1,151 +1,169 @@
+
 const products = [
-  {
-    id: 1,
-    title: "Blue Widget",
-    description: "A stylish blue widget",
-    price: 19.99,
-    compareAt: 24.99,
-    stock: 5,
-    image: "assets/images/blue-widget.jpg"
-  },
-  {
-    id: 2,
-    title: "Red Widget",
-    description: "A flashy red widget",
-    price: 21.99,
-    compareAt: 29.99,
-    stock: 8,
-    image: "assets/images/red-widget.jpg"
-  },
-  {
-    id: 3,
-    title: "Green Widget",
-    description: "Eco-friendly green widget",
-    price: 15.99,
-    compareAt: null,
-    stock: 10,
-    image: "assets/images/green-widget.jpg"
-  }
-];
-const productGrid = document.getElementById("product-grid");
-const template = document.getElementById("product-card-template");
-
-function renderProducts(productsList) {
-  productGrid.innerHTML = ""; 
-
-  productsList.forEach(product => {
-    const clone = template.content.cloneNode(true);
-    const article = clone.querySelector(".product");
-    article.dataset.productId = product.id;
-    clone.querySelector(".product__title").textContent = product.title;
-    clone.querySelector(".product__description").textContent = product.description;
-    clone.querySelector(".product__price").textContent = `$${product.price.toFixed(2)}`;
-    if(product.compareAt){
-      clone.querySelector(".product__price--compare").textContent = `$${product.compareAt.toFixed(2)}`;
+    {
+        id: 1,
+        name: "Liquid Chrome Lip",
+        description: "Hyper-reflective metallic pigment with 12h wear.",
+        price: 34.00,
+        image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800", 
+        badge: "NEW",
+        stock: 12
+    },
+    {
+        id: 2,
+        name: "Neon-Pulse Palette",
+        description: "12 UV-reactive pressed pigments for the future.",
+        price: 58.00,
+        image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&q=80&w=800",
+        badge: "BESTSELLER",
+        stock: 5
+    },
+    {
+        id: 3,
+        name: "Glitch Gloss",
+        description: "Holographic high-shine finish with plumping tech.",
+        price: 28.00,
+        image: "https://images.unsplash.com/photo-1599733594230-6b823276abcc?auto=format&fit=crop&q=80&w=800",
+        badge: "LIMITED",
+        stock: 20
     }
-    clone.querySelector(".product__stock").textContent = `Stock: ${product.stock}`;
-    clone.querySelector(".product__image").src = product.image;
-    clone.querySelector(".product__image").alt = product.title;
+];
 
-    productGrid.appendChild(clone);
-  });
-}
-
-renderProducts(products);
 let cart = [];
 
-productGrid.addEventListener("click", (e) => {
-  if (e.target.classList.contains("product__add")) {
-    const article = e.target.closest(".product");
-    const productId = parseInt(article.dataset.productId);
-    const qty = parseInt(article.querySelector(".product__qty-input").value);
+const productGrid = document.getElementById('product-grid');
+const productTemplate = document.getElementById('product-card-template');
+const cartPanel = document.getElementById('cart-panel');
+const cartItemsList = document.getElementById('cart-items');
+const cartCountLabel = document.querySelector('.header-cart__count');
+const subtotalDisplay = document.getElementById('cart-subtotal');
+const totalDisplay = document.getElementById('cart-total');
+const checkoutBtn = document.getElementById('checkout-btn');
 
+document.addEventListener('DOMContentLoaded', () => {
+    renderProducts(products);
+    setupEventListeners();
+    updateYear();
+});
+
+
+function renderProducts(productsToRender) {
+    productGrid.innerHTML = '';
+    
+    productsToRender.forEach(product => {
+        const clone = productTemplate.content.cloneNode(true);
+        
+    
+        clone.querySelector('.product').dataset.productId = product.id;
+        clone.querySelector('.product__title').textContent = product.name;
+        clone.querySelector('.product__image').src = product.image;
+        clone.querySelector('.product__image').alt = product.name;
+        clone.querySelector('.product__price').textContent = `$${product.price.toFixed(2)}`;
+        clone.querySelector('.product__badge').textContent = product.badge;
+
+    
+        clone.querySelector('.product__add').addEventListener('click', () => {
+            addToCart(product.id);
+        });
+
+        productGrid.appendChild(clone);
+    });
+}
+
+function addToCart(productId) {
     const product = products.find(p => p.id === productId);
+    const existingItem = cart.find(item => item.id === productId);
 
-    const cartItem = cart.find(item => item.id === productId);
-    if(cartItem){
-      cartItem.qty += qty;
+    if (existingItem) {
+        existingItem.quantity += 1;
     } else {
-      cart.push({...product, qty});
+        cart.push({ ...product, quantity: 1 });
     }
+
     updateCartUI();
-  }
-});
-
-const cartItemsEl = document.getElementById("cart-items");
-const cartSubtotalEl = document.getElementById("cart-subtotal");
-const cartCountEl = document.querySelector(".header-cart__count");
-
-function updateCartUI(){
-  cartItemsEl.innerHTML = "";
-  let subtotal = 0;
-  cart.forEach(item => {
-    const li = document.createElement("li");
-    li.classList.add("cart__item");
-    li.innerHTML = `
-      <span class="cart__item-title">${item.title} x ${item.qty}</span>
-      <span class="cart__item-meta">$${(item.price*item.qty).toFixed(2)}</span>
-    `;
-    cartItemsEl.appendChild(li);
-    subtotal += item.price*item.qty;
-  });
-  cartSubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
-  cartCountEl.textContent = cart.reduce((acc, i)=>acc+i.qty,0);
+    openCart();
 }
-function updateCartUI(){
-  cartItemsEl.innerHTML = "";
-  if(cart.length === 0){
-    document.getElementById("cart-empty-msg").style.display = "block";
-  } else {
-    document.getElementById("cart-empty-msg").style.display = "none";
-  }
-  let subtotal = 0;
-  cart.forEach(item => {
-    const li = document.createElement("li");
-    li.classList.add("cart__item");
-    li.innerHTML = `
-      <span class="cart__item-title">${item.title} x ${item.qty}</span>
-      <span class="cart__item-meta">$${(item.price*item.qty).toFixed(2)}</span>
-    `;
-    cartItemsEl.appendChild(li);
-    subtotal += item.price*item.qty;
-  });
-  const tax = subtotal*0.05;
-  cartSubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
-  document.getElementById("cart-tax").textContent = `$${tax.toFixed(2)}`;
-  document.getElementById("cart-total").textContent = `$${(subtotal+tax).toFixed(2)}`;
-  cartCountEl.textContent = cart.reduce((acc, i)=>acc+i.qty,0);
-}
-const checkoutBtn = document.getElementById("checkout-btn");
-checkoutBtn.addEventListener("click", ()=>{
-  if(cart.length === 0) return;
-  alert("Order placed! Thank you!");
-  cart = [];
-  updateCartUI();
-});
 
-// Enable checkout button when items exist
-function updateCartUI(){
-  checkoutBtn.disabled = cart.length === 0;
+function updateCartUI() {
+
+    cartItemsList.innerHTML = '';
+    
+    let subtotal = 0;
+    let count = 0;
+
+    cart.forEach(item => {
+        subtotal += item.price * item.quantity;
+        count += item.quantity;
+
+        const li = document.createElement('li');
+        li.className = 'cart__item';
+        li.innerHTML = `
+            <div>
+                <div class="cart__item-title"><strong>${item.name}</strong></div>
+                <div class="cart__item-meta">${item.quantity} x $${item.price}</div>
+            </div>
+            <div class="cart__item-actions">
+                <button onclick="removeFromCart(${item.id})" style="border:none; background:none; cursor:pointer;">✕</button>
+            </div>
+        `;
+        cartItemsList.appendChild(li);
+    });
+
+
+    cartCountLabel.textContent = count;
+    subtotalDisplay.textContent = `$${subtotal.toFixed(2)}`;
+    totalDisplay.textContent = `$${subtotal.toFixed(2)}`;
+    
+
+    document.getElementById('cart-empty-msg').style.display = cart.length ? 'none' : 'block';
+    checkoutBtn.disabled = cart.length === 0;
 }
-const searchInput = document.getElementById("search-input");
-searchInput.addEventListener("input", (e)=>{
-  const query = e.target.value.toLowerCase();
-  const filtered = products.filter(p=>p.title.toLowerCase().includes(query));
-  renderProducts(filtered);
-});
-const sortSelect = document.getElementById("sort-select");
-sortSelect.addEventListener("change", (e)=>{
-  const val = e.target.value;
-  let sorted = [...products];
-  if(val==="price-asc") sorted.sort((a,b)=>a.price-b.price);
-  if(val==="price-desc") sorted.sort((a,b)=>b.price-a.price);
-  renderProducts(sorted);
-});
-const navToggle = document.querySelector(".nav__toggle");
-const navList = document.querySelector(".nav__list");
-navToggle.addEventListener("click", ()=>{
-  const expanded = navToggle.getAttribute("aria-expanded")==="true";
-  navToggle.setAttribute("aria-expanded", !expanded);
-  navList.style.display = expanded?"none":"flex";
-});
+
+window.removeFromCart = (productId) => {
+    cart = cart.filter(item => item.id !== productId);
+    updateCartUI();
+};
+
+
+function setupEventListeners() {
+   
+    document.querySelector('[data-open-cart]').addEventListener('click', openCart);
+    document.querySelector('[data-close-cart]').addEventListener('click', closeCart);
+
+ 
+    document.getElementById('search-input').addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        const filtered = products.filter(p => 
+            p.name.toLowerCase().includes(term) || 
+            p.description.toLowerCase().includes(term)
+        );
+        renderProducts(filtered);
+    });
+
+
+    checkoutBtn.addEventListener('click', () => {
+        const status = document.getElementById('checkout-status');
+        status.textContent = "Processing secure transaction...";
+        setTimeout(() => {
+            status.textContent = "Success! Your future arrived.";
+            cart = [];
+            updateCartUI();
+        }, 2000);
+    });
+}
+
+function openCart() {
+    cartPanel.classList.remove('cart--hidden');
+  
+    cartPanel.style.transform = "translateX(0)";
+}
+
+function closeCart() {
+    cartPanel.classList.add('cart--hidden');
+    cartPanel.style.transform = "translateX(110%)";
+}
+
+function updateYear() {
+    const yearSpan = document.getElementById('footer-year');
+    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+}

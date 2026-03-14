@@ -3,157 +3,131 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fix-It Forward Shop</title>
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>ByteBazaar | Future Fashion</title>
     <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Header -->
     <header class="site-header">
-        <a href="#" class="logo" aria-label="Fix It Forward Home">
-            Fix-It <span>Forward</span>
+        <a href="#" class="logo" aria-label="ByteBazaar Home">
+            BYTE<span>BAZAAR</span>
         </a>
         <nav class="nav" aria-label="Primary">
             <button class="nav__toggle" aria-expanded="false" aria-controls="nav-menu">
                 ☰
             </button>
             <ul id="nav-menu" class="nav__list">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#catalog">Catalogue</a></li>
-                <li><a href="#cart-panel">Cart</a></li>
-                <li><a href="#footer">Help</a></li>
+                <li><a href="#hero">Collections</a></li>
+                <li><a href="#catalog">New Arrivals</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#footer">Reviews</a></li>
             </ul>
         </nav>
         <button class="header-cart" data-open-cart="true">
-            Cart
+            CART
             <span class="header-cart__count" aria-live="polite">0</span>
         </button>
     </header>
 
-    <!-- Hero Section -->
     <main>
         <section id="hero" class="hero" aria-labelledby="hero-title">
+            <div class="hero__bg-text" aria-hidden="true">YOUR CHOICE</div>
             <div class="hero__content">
-                <h1 id="hero-title">Broken, But Beautiful Store</h1>
-                <p>
-                    A deliberately imperfect e-commerce experience. Your mission is to make it
-                    production-ready.
-                </p>
-                <button class="btn btn--primary" data-scroll-target="#catalog">
-                    Start Shopping
-                </button>
-            </div>
-            <div class="hero__highlight hero__highlight--glow" aria-hidden="true">
-                <p>Today only: Shipping might or might not work.</p>
+                <h1 id="hero-title" class="visually-hidden">ByteBazaar</h1>
+                <div class="hero__main-product">
+                    <img src="featured-bag.png" alt="Featured ByteBazaar Bag" class="hero__image">
+                </div>
+                <div class="hero__cta-box">
+                    <p>Where creativity meets practicality in every byte.</p>
+                    <button class="btn btn--primary" data-scroll-target="#catalog">
+                        Explore Collection →
+                    </button>
+                </div>
             </div>
         </section>
 
         <section id="catalog" class="catalog" aria-label="Product list">
             <header class="catalog__header">
-                <h2>Featured Items</h2>
+                <div class="catalog__tabs">
+                    <button class="tab-btn active">Bloggers' Choice</button>
+                    <h2 class="section-title">NEW ARRIVALS</h2>
+                    <button class="tab-btn">Bestsellers</button>
+                </div>
                 <div class="catalog__filters">
-                    <label>
-                        Sort by
-                        <select id="sort-select">
-                            <option value="recommended">Recommended</option>
-                            <option value="price-asc">Price: Low to High</option>
-                            <option value="price-desc">Price: High to Low</option>
-                        </select>
-                    </label>
-                    <label>
-                        <span class="visually-hidden">Search products</span>
-                        <input
-                            id="search-input"
-                            type="search"
-                            placeholder="Search products"
-                            autocomplete="off"
-                        />
-                    </label>
+                    <select id="sort-select">
+                        <option value="recommended">Sort by: Recommended</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                    </select>
+                    <input id="search-input" type="search" placeholder="Search the bazaar..." autocomplete="off" />
                 </div>
             </header>
 
             <div class="catalog__grid" id="product-grid">
-            
-            </div>
+                </div>
 
-            
             <template id="product-card-template">
                 <article class="product" data-product-id="">
+                    <span class="product__badge">ECO</span>
                     <button class="product__favorite" aria-pressed="false" aria-label="Save product">
-                        ☆
+                        ♡
                     </button>
                     <div class="product__image-wrapper">
                         <img class="product__image" alt="" loading="lazy" />
                     </div>
                     <div class="product__body">
                         <h3 class="product__title"></h3>
-                        <p class="product__description"></p>
                         <div class="product__pricing">
                             <span class="product__price"></span>
-                            <span class="product__price--compare"></span>
-                        </div>
-                        <div class="product__stock" aria-live="polite"></div>
-                        <div class="product__actions">
-                            <label class="product__qty-label">
-                                Qty
-                                <input
-                                    class="product__qty-input"
-                                    type="number"
-                                    min="1"
-                                    max="9"
-                                    step="1"
-                                    value="1"
-                                />
-                            </label>
-                            <button class="btn btn--secondary product__add">Add to Cart</button>
+                            <button class="btn btn--secondary product__add">Learn More</button>
                         </div>
                     </div>
                 </article>
             </template>
         </section>
 
-        <aside id="cart-panel" class="cart cart--hidden" aria-label="Shopping cart" aria-live="polite">
+        <section id="about" class="about-section">
+            <div class="about__grid">
+                <div class="about__text">
+                    <p class="accent-text">Our team is passionate about futurism and innovation.</p>
+                    <p>We experiment with modern materials and metallic shapes to create products that don't just meet your needs, but inspire new possibilities.</p>
+                    <button class="btn btn--outline">More about us</button>
+                </div>
+                <div class="about__visuals">
+                    <div class="blob-art"></div>
+                    <img src="mannequin-metallic.jpg" alt="Futuristic Design" class="about__img">
+                </div>
+            </div>
+        </section>
+
+        <aside id="cart-panel" class="cart" aria-label="Shopping cart" aria-live="polite">
             <header class="cart__header">
-                <h2>Cart</h2>
-                <button class="cart__close" data-close-cart="true" aria-label="Close cart">
-                    ×
-                </button>
+                <h2>Your Bag</h2>
+                <button class="cart__close" data-close-cart="true" aria-label="Close cart">×</button>
             </header>
             <div class="cart__body">
-                <ul class="cart__items" id="cart-items">
-                    
-                </ul>
-                <p class="cart__empty" id="cart-empty-msg">Your cart is currently empty.</p>
+                <ul class="cart__items" id="cart-items"></ul>
+                <p class="cart__empty" id="cart-empty-msg">Your bag is empty.</p>
             </div>
             <footer class="cart__footer">
                 <dl class="cart__summary">
-                    <div>
-                        <dt>Subtotal</dt>
-                        <dd id="cart-subtotal">$0.00</dd>
-                    </div>
-                    <div>
-                        <dt>Estimated Tax</dt>
-                        <dd id="cart-tax">$0.00</dd>
-                    </div>
-                    <div>
-                        <dt>Total</dt>
-                        <dd id="cart-total">$0.00</dd>
-                    </div>
+                    <div><dt>Subtotal</dt><dd id="cart-subtotal">$0.00</dd></div>
+                    <div><dt>Total</dt><dd id="cart-total">$0.00</dd></div>
                 </dl>
                 <button class="btn btn--primary btn--full" id="checkout-btn" disabled>
-                    Proceed to Checkout
+                    Complete Purchase
                 </button>
-                <p class="cart__status" id="checkout-status" aria-live="polite"></p>
+                <p class="cart__status" id="checkout-status"></p>
             </footer>
         </aside>
     </main>
 
-    <footer id="footer" class="site-footer site-footer--silver">
-        <p>© <span id="footer-year">2023</span> Fix-It Forward. All rights maybe reserved.</p>
-        <p class="site-footer__note">This is a demo store. Nothing you order will actually ship.</p>
+    <footer id="footer" class="site-footer">
+        <div class="footer__logo">BYTEBAZAAR</div>
+        <p>© <span id="footer-year">2026</span> ByteBazaar. Shaping the future of fashion.</p>
+        <p class="site-footer__note">Hackathon Edition.</p>
     </footer>
 
-    <script src="app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
