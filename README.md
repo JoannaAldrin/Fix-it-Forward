@@ -8,7 +8,7 @@ ByteBazaar is a futuristic, high-performance e-commerce platform built for the F
 # 🔗 Project Links
 Deployment Link: (https://byte-bazaar-chi.vercel.app/)
 
-Demo Video:
+Demo Video: (https://drive.google.com/drive/u/0/folders/1RfrKWWyeCMCsBdY6FpQeruddUqCsGxgq)
 
 # 🛠️ Technologies Used
 *HTML5/CSS3:* Utilized CSS Variables for the design system and Flexbox for the adaptive cart layout.
