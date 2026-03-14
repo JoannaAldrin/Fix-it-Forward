@@ -27,3 +27,28 @@ const products = [
     image: "assets/images/green-widget.jpg"
   }
 ];
+const productGrid = document.getElementById("product-grid");
+const template = document.getElementById("product-card-template");
+
+function renderProducts(productsList) {
+  productGrid.innerHTML = ""; 
+
+  productsList.forEach(product => {
+    const clone = template.content.cloneNode(true);
+    const article = clone.querySelector(".product");
+    article.dataset.productId = product.id;
+    clone.querySelector(".product__title").textContent = product.title;
+    clone.querySelector(".product__description").textContent = product.description;
+    clone.querySelector(".product__price").textContent = `$${product.price.toFixed(2)}`;
+    if(product.compareAt){
+      clone.querySelector(".product__price--compare").textContent = `$${product.compareAt.toFixed(2)}`;
+    }
+    clone.querySelector(".product__stock").textContent = `Stock: ${product.stock}`;
+    clone.querySelector(".product__image").src = product.image;
+    clone.querySelector(".product__image").alt = product.title;
+
+    productGrid.appendChild(clone);
+  });
+}
+
+renderProducts(products);
