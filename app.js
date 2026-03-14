@@ -4,7 +4,13 @@ const products = [
     { id: 3, name: "Glitch Gloss", price: 28.00, image: "https://images.unsplash.com/photo-1643168186368-c42359c82573?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
     { id: 4, name: "Cyber Blush", price: 42.00, image: "https://images.unsplash.com/photo-1625093525885-282384697917?q=80&w=1101&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
     { id: 5, name: "Aura Highlighter", price: 45.00, image: "https://images.unsplash.com/photo-1501728636520-11c972bd5e2e?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-    { id: 6, name: "Meta Mascara", price: 30.00, image: "https://images.unsplash.com/photo-1725792826131-2c597a38dde6?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }
+    { id: 6, name: "Meta Mascara", price: 30.00, image: "https://images.unsplash.com/photo-1725792826131-2c597a38dde6?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+    { id: 7, name: "Radiant Eyeshadow", price: 35.00, image: "https://images.unsplash.com/photo-1583931537180-7d26921260e4?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+    { id: 8, name: "Luminous Lipstick", price: 32.00, image: "https://plus.unsplash.com/premium_photo-1661772819014-1fe81103e12b?q=80&w=692&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+    { id: 9, name: "Pixel Primer", price: 25.00, image: "https://images.unsplash.com/photo-1623882150544-6e55b195a115?q=80&w=765&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+    { id: 10, name: "Holo Brow Gel", price: 29.00, image: "https://images.unsplash.com/photo-1635868388874-865b8d592253?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+    { id: 11, name: "Flawless Foundation", price: 50.00, image: "https://images.unsplash.com/photo-1557205465-f3762edea6d3?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+    { id: 12, name: "Eclipse Eyeliner", price: 27.00, image: "https://images.unsplash.com/photo-1631237535134-e009a5939d9c?q=80&w=1025&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }          
 ];
 
 let cart = [];
@@ -37,7 +43,7 @@ function addToCart(product, discountedPrice) {
     cart.push({ ...product, price: parseFloat(discountedPrice) });
     updateCartUI();
     document.getElementById('cart-panel').classList.remove('cart--hidden');
-    // Add a "pop" animation to the bag button
+    
 const bag = document.querySelector('.header-cart');
 bag.style.transform = "scale(1.2)";
 setTimeout(() => {
@@ -66,13 +72,13 @@ function updateCartUI() {
     document.getElementById('checkout-btn').disabled = cart.length === 0;
     document.getElementById('cart-empty-msg').style.display = cart.length ? 'none' : 'block';
     document.getElementById('checkout-btn').onclick = () => {
-    // 1. Alert the user
+   
     alert("Eid Mubarak! Your order is placed. ✨");
     
-    // 2. Trigger the confetti
+    
     throwConfetti();
     
-    // 3. Clear the bag
+   
     cart = [];
     updateCartUI();
     document.getElementById('cart-panel').classList.add('cart--hidden');
@@ -120,17 +126,17 @@ function setupCoreListeners() {
     document.querySelector('[data-close-cart]').onclick = () => document.getElementById('cart-panel').classList.add('cart--hidden');
     document.getElementById('explore-btn').onclick = () => document.getElementById('catalog').scrollIntoView({behavior: 'smooth'});
     document.getElementById('footer-year').textContent = new Date().getFullYear();
-    // Add this inside setupCoreListeners()
+   
 const modal = document.getElementById('welcome-modal');
 const modalBtn = document.getElementById('close-modal-btn');
 
 if (modalBtn) {
     modalBtn.onclick = () => {
-        // Add a smooth fade out
+       
         modal.style.transition = "opacity 0.5s ease";
         modal.style.opacity = "0";
         
-        // Wait for animation to finish, then remove from view
+       
         setTimeout(() => {
             modal.style.display = "none";
         }, 500);
@@ -144,6 +150,24 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.1 });
 
-// Apply to all products after they are rendered
+
 document.querySelectorAll('.product').forEach(p => observer.observe(p));
+
+const newsletterForm = document.getElementById('newsletter-form');
+if (newsletterForm) {
+    newsletterForm.onsubmit = (e) => {
+        e.preventDefault();
+        const btn = newsletterForm.querySelector('button');
+        const originalText = btn.textContent;
+        
+        btn.textContent = "JOINED! ✨";
+        btn.disabled = true;
+        newsletterForm.querySelector('input').value = ""; // Clear input
+
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }, 3000);
+    };
+}
 }
