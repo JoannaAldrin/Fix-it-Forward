@@ -1,5 +1,6 @@
 # Fix-It Forward: Broken Store Challenge
 # BYTEBAZAAR | Glow Tech Beauty
+# 🥈 WON SECOND PLACE 
 Empowering the next generation of beauty through immersive commerce.
 
 ByteBazaar is a futuristic, high-performance e-commerce platform built for the Fix-It Forward Challenge. The website contains aesthetics and seamless user functionality, featuring an automated Eid discount system and an AI-driven concierge.
